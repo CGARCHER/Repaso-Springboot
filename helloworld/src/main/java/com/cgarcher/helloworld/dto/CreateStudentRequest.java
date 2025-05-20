@@ -1,29 +1,17 @@
 package com.cgarcher.helloworld.dto;
 
 import java.time.LocalDate;
-import java.util.Objects;
 
-public class Student {
+public class CreateStudentRequest {
 
-    private static int count_id = 1;
-    private Integer id;
     private String name;
     private String mail;
     private LocalDate date_born;
 
-    public Student(String name, String mail, LocalDate date_born) {
-        this.id = count_id;
-        count_id++;
+    public CreateStudentRequest(String name, String mail, LocalDate date_born) {
         this.name = name;
         this.mail = mail;
         this.date_born = date_born;
-    }
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -48,15 +36,5 @@ public class Student {
 
     public void setDate_born(LocalDate date_born) {
         this.date_born = date_born;
-    }
-
-    @Override
-    public String toString() {
-        return "Student{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", mail='" + mail + '\'' +
-                ", date_born=" + date_born +
-                '}';
     }
 }
