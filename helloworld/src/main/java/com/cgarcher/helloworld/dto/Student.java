@@ -5,22 +5,26 @@ import java.util.Objects;
 
 public class Student {
 
-    private static int id = 0;
+    private static int count_id = 0;
+    private Integer id;
     private String name;
     private String mail;
     private LocalDate date_born;
 
     public Student(String name, String mail, LocalDate date_born) {
-        id++;
+        count_id++;
+        this.id = count_id;
         this.name = name;
         this.mail = mail;
         this.date_born = date_born;
     }
-
-    public static int getId() {
+    public Integer getId() {
         return id;
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -50,7 +54,7 @@ public class Student {
     public String toString() {
         return "Student{" +
                 "id='" + id + '\'' +
-                "name='" + name + '\'' +
+                ", name='" + name + '\'' +
                 ", mail='" + mail + '\'' +
                 ", date_born=" + date_born +
                 '}';
