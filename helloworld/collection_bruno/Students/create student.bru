@@ -1,0 +1,19 @@
+meta {
+  name: create student
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:8080/student/create
+  body: json
+  auth: none
+}
+
+body:json {
+    {
+      "name": "Alonso",
+      "mail": "f1@gmail.com",
+      "date_born": "2002-12-12"
+    }
+}
