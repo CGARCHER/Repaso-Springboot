@@ -1,9 +1,8 @@
 package com.cgarcher.helloworld.dto;
 
 import java.time.LocalDate;
-import java.util.Objects;
 
-public class Student {
+public class StudentDTO {
 
     private static int count_id = 1;
     private Integer id;
@@ -11,7 +10,7 @@ public class Student {
     private String mail;
     private LocalDate date_born;
 
-    public Student(String name, String mail, LocalDate date_born) {
+    public StudentDTO(String name, String mail, LocalDate date_born) {
         this.id = count_id;
         count_id++;
         this.name = name;

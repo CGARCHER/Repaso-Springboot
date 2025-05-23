@@ -1,11 +1,16 @@
 package com.cgarcher.helloworld.dto;
 
+import jakarta.validation.constraints.*;
+
 import java.time.LocalDate;
 
 public class CreateStudentRequest {
 
+    @NotEmpty
     private String name;
+    @NotEmpty @Email
     private String mail;
+    @NotEmpty @Past
     private LocalDate date_born;
 
     public CreateStudentRequest(String name, String mail, LocalDate date_born) {

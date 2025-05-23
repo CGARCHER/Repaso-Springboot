@@ -1,8 +1,9 @@
 package com.cgarcher.helloworld.controller;
 
 import com.cgarcher.helloworld.dto.CreateStudentRequest;
-import com.cgarcher.helloworld.dto.Student;
+import com.cgarcher.helloworld.dto.StudentDTO;
 import com.cgarcher.helloworld.service.IStudentService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,18 +21,18 @@ public class StudentController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Student>> getAll(){
+    public ResponseEntity<List<StudentDTO>> getAll(){
         return ResponseEntity.ok(studentService.getAllStudent());
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Student> create(@RequestBody CreateStudentRequest createStudentRequest) {
+    public ResponseEntity<StudentDTO> create(@RequestBody @Valid CreateStudentRequest createStudentRequest) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(studentService.createStudent(createStudentRequest));
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Student> delete(@PathVariable int id){
+    public ResponseEntity<StudentDTO> delete(@PathVariable int id){
         return ResponseEntity.ok(studentService.deleteStudent(id));
 
     }

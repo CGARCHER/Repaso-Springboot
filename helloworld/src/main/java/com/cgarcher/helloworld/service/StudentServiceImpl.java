@@ -1,8 +1,10 @@
 package com.cgarcher.helloworld.service;
 
 import com.cgarcher.helloworld.dto.CreateStudentRequest;
-import com.cgarcher.helloworld.dto.Student;
+import com.cgarcher.helloworld.dto.StudentDTO;
+import com.cgarcher.helloworld.entity.Student;
 import com.cgarcher.helloworld.exception.NotFoundStudentException;
+import com.cgarcher.helloworld.repository.IStudentRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -13,21 +15,30 @@ import java.util.Map;
 
 @Service
 public class StudentServiceImpl implements IStudentService {
-    private Map<Integer, Student> students;
+    //Spolier:desaparecerá
+    private Map<Integer, StudentDTO> students;
+    private final IStudentRepository studentRepository;
 
-    public StudentServiceImpl() {
+    public StudentServiceImpl(IStudentRepository studentRepository) {
+        this.studentRepository = studentRepository;
         //Voy a inicializar la lista de students
         initStudents();
     }
 
     @Override
-    public List<Student> getAllStudent() {
-        return students.values().stream().toList();
+    public List<StudentDTO> getAllStudent() {
+        List<Student> lstStudent = this.studentRepository.findAll();
+        List<StudentDTO> lstStudentDTO = new ArrayList<>();
+        for (Student student : lstStudent) {
+            lstStudentDTO.add(new StudentDTO(student.getName(),
+                    student.getMail(), student.getDate_born()));
+        }
+        return lstStudentDTO;
     }
 
     @Override
-    public Student createStudent(CreateStudentRequest createStudentRequest) {
-        Student student = new Student(createStudentRequest.getName(),
+    public StudentDTO createStudent(CreateStudentRequest createStudentRequest) {
+        StudentDTO student = new StudentDTO(createStudentRequest.getName(),
                 createStudentRequest.getMail(),
                 createStudentRequest.getDate_born());
         students.put(student.getId(), student);
@@ -35,7 +46,7 @@ public class StudentServiceImpl implements IStudentService {
     }
 
     @Override
-    public Student deleteStudent(int id) {
+    public StudentDTO deleteStudent(int id) {
 
         if(!students.containsKey(id)){
             throw new NotFoundStudentException("Error al borrar estudiante");
@@ -46,18 +57,18 @@ public class StudentServiceImpl implements IStudentService {
     private void initStudents(){
         students = new HashMap<>();
 
-        Student student = new Student("Junior",
+        StudentDTO student = new StudentDTO("Junior",
                 "poronga@gmail.com",
                 LocalDate.of(2002, 12,12));
         students.put(student.getId(), student);
 
-        student = new Student("Cipri",
+        student = new StudentDTO("Cipri",
                 "cipri@gmail.com",
                 LocalDate.of(2005, 5,5));
 
         students.put(student.getId(), student);
 
-        student = new Student("Fátima",
+        student = new StudentDTO("Fátima",
                 "cipri@gmail.com",
                 LocalDate.of(2006, 1,1));
         students.put(student.getId(), student);
