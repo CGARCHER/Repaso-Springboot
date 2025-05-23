@@ -2,6 +2,7 @@ package com.cgarcher.helloworld.service;
 
 import com.cgarcher.helloworld.dto.CreateStudentRequest;
 import com.cgarcher.helloworld.dto.Student;
+import com.cgarcher.helloworld.exception.NotFoundStudentException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -12,7 +13,6 @@ import java.util.Map;
 
 @Service
 public class StudentServiceImpl implements IStudentService {
-
     private Map<Integer, Student> students;
 
     public StudentServiceImpl() {
@@ -32,6 +32,15 @@ public class StudentServiceImpl implements IStudentService {
                 createStudentRequest.getDate_born());
         students.put(student.getId(), student);
         return student;
+    }
+
+    @Override
+    public Student deleteStudent(int id) {
+
+        if(!students.containsKey(id)){
+            throw new NotFoundStudentException("Error al borrar estudiante");
+        }
+        return students.remove(id);
     }
 
     private void initStudents(){

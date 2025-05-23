@@ -6,6 +6,7 @@ import com.cgarcher.helloworld.dto.Student;
 import java.util.List;
 
 public interface IStudentService {
-    public List<Student> getAllStudent();
-    public Student createStudent(CreateStudentRequest createStudentRequest);
+    List<Student> getAllStudent();
+    Student createStudent(CreateStudentRequest createStudentRequest);
+    Student deleteStudent(int id);
 }
