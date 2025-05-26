@@ -4,11 +4,11 @@ import com.cgarcher.helloworld.dto.CreateStudentRequest;
 import com.cgarcher.helloworld.dto.StudentDTO;
 import com.cgarcher.helloworld.entity.Student;
 import com.cgarcher.helloworld.exception.NotFoundStudentException;
+import com.cgarcher.helloworld.mapper.IStudentMapper;
 import com.cgarcher.helloworld.repository.IStudentRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,22 +18,19 @@ public class StudentServiceImpl implements IStudentService {
     //Spolier:desaparecerá
     private Map<Integer, StudentDTO> students;
     private final IStudentRepository studentRepository;
+    private final IStudentMapper studentMapper;
 
-    public StudentServiceImpl(IStudentRepository studentRepository) {
+    public StudentServiceImpl(IStudentRepository studentRepository, IStudentMapper studentMapper) {
         this.studentRepository = studentRepository;
+        this.studentMapper = studentMapper;
         //Voy a inicializar la lista de students
         initStudents();
     }
 
     @Override
     public List<StudentDTO> getAllStudent() {
-        List<Student> lstStudent = this.studentRepository.findAll();
-        List<StudentDTO> lstStudentDTO = new ArrayList<>();
-        for (Student student : lstStudent) {
-            lstStudentDTO.add(new StudentDTO(student.getName(),
-                    student.getMail(), student.getDate_born()));
-        }
-        return lstStudentDTO;
+        return studentMapper.studentToStudentDTO
+                (this.studentRepository.findAll());
     }
 
     @Override
