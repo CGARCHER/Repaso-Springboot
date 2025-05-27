@@ -1,9 +1,10 @@
 package com.cgarcher.helloworld.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 
 import java.time.LocalDate;
-
+@Builder
 @Entity
 @Table(name = "students")
 public class Student {

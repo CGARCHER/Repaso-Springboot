@@ -1,0 +1,17 @@
+meta {
+  name: Update Student
+  type: http
+  seq: 5
+}
+
+patch {
+  url: http://localhost:8080/student/update/1
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "name": "Cipri"
+  }
+}

@@ -2,6 +2,7 @@ package com.cgarcher.helloworld.service;
 
 import com.cgarcher.helloworld.dto.CreateStudentRequest;
 import com.cgarcher.helloworld.dto.StudentDTO;
+import com.cgarcher.helloworld.dto.UpdateStudentRequest;
 import com.cgarcher.helloworld.entity.Student;
 import com.cgarcher.helloworld.exception.NotFoundStudentException;
 import com.cgarcher.helloworld.mapper.IStudentMapper;
@@ -12,19 +13,18 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class StudentServiceImpl implements IStudentService {
-    //Spolier:desaparecerá
-    private Map<Integer, StudentDTO> students;
+
     private final IStudentRepository studentRepository;
     private final IStudentMapper studentMapper;
 
     public StudentServiceImpl(IStudentRepository studentRepository, IStudentMapper studentMapper) {
         this.studentRepository = studentRepository;
         this.studentMapper = studentMapper;
-        //Voy a inicializar la lista de students
-        initStudents();
+
     }
 
     @Override
@@ -35,39 +35,56 @@ public class StudentServiceImpl implements IStudentService {
 
     @Override
     public StudentDTO createStudent(CreateStudentRequest createStudentRequest) {
-        StudentDTO student = new StudentDTO(createStudentRequest.getName(),
-                createStudentRequest.getMail(),
-                createStudentRequest.getDate_born());
-        students.put(student.getId(), student);
-        return student;
+
+        Student student = Student.builder()
+                .name(createStudentRequest.getName())
+                .mail(createStudentRequest.getMail())
+                .date_born(createStudentRequest.getDate_born())
+                .build();
+
+
+        return this.studentMapper.studentToStudentDTO
+                (this.studentRepository.save(student));
     }
 
     @Override
     public StudentDTO deleteStudent(int id) {
+            Optional<Student> opStudent = this.studentRepository.findById(id);
 
-        if(!students.containsKey(id)){
-            throw new NotFoundStudentException("Error al borrar estudiante");
+            if(opStudent.isEmpty()) {
+                throw new NotFoundStudentException("Error al borrar estudiante");
+            }
+           this.studentRepository.deleteById(opStudent.get().getId());
+           return  this.studentMapper.studentToStudentDTO(opStudent.get());
+    }
+
+
+    @Override
+    public StudentDTO updateStudent(int id, UpdateStudentRequest updateStudentRequest) {
+        Optional<Student> opStudent = this.studentRepository.findById(id);
+
+        if(opStudent.isEmpty()) {
+            throw new NotFoundStudentException("Error al encontrar al estudiante");
         }
-        return students.remove(id);
+
+        Student student = opStudent.get();
+
+        if (updateStudentRequest.getName() != null) {
+            student.setName(updateStudentRequest.getName());
+        }
+
+        if (updateStudentRequest.getMail() != null) {
+            student.setMail(updateStudentRequest.getMail());
+        }
+
+        if (updateStudentRequest.getDate_born() != null) {
+            student.setDate_born(updateStudentRequest.getDate_born());
+        }
+
+        return this.studentMapper.studentToStudentDTO
+                (this.studentRepository.save(student));
     }
 
-    private void initStudents(){
-        students = new HashMap<>();
 
-        StudentDTO student = new StudentDTO("Junior",
-                "poronga@gmail.com",
-                LocalDate.of(2002, 12,12));
-        students.put(student.getId(), student);
 
-        student = new StudentDTO("Cipri",
-                "cipri@gmail.com",
-                LocalDate.of(2005, 5,5));
-
-        students.put(student.getId(), student);
-
-        student = new StudentDTO("Fátima",
-                "cipri@gmail.com",
-                LocalDate.of(2006, 1,1));
-        students.put(student.getId(), student);
-    }
 }
