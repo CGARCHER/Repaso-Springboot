@@ -1,0 +1,143 @@
+openapi: 3.0.0
+info:
+  title: My Backend API
+  description: This API exposes endpoints.
+  termsOfService: https://www.ayuda.com/terms
+  contact:
+    name: Francisco
+    url: https://www.forocoches.com
+    email: lobato@gmail.com
+  license:
+    name: MIT License
+    url: https://choosealicense.com/licenses/mit/
+  version: "1.0"
+externalDocs:
+  description: Repositorio y Documentación del Proyecto y API
+  url: https://github.com/cgarcher
+servers:
+- url: http://localhost:8080
+  description: Generated server url
+paths:
+  /student/create:
+    post:
+      tags:
+      - student-controller
+      operationId: create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateStudentRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/StudentDTO"
+  /student/update/{id}:
+    patch:
+      tags:
+      - student-controller
+      operationId: update
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateStudentRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/StudentDTO"
+  /student/all:
+    get:
+      tags:
+      - student-controller
+      summary: Get all students
+      operationId: getAll
+      responses:
+        "200":
+          description: List of students
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/StudentDTO"
+  /student/delete/{id}:
+    delete:
+      tags:
+      - student-controller
+      operationId: delete
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/StudentDTO"
+components:
+  schemas:
+    CreateStudentRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        mail:
+          type: string
+        date_born:
+          type: string
+          format: date
+      required:
+      - mail
+      - name
+    StudentDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          description: Identificador del estudiante
+          example: 1
+        name:
+          type: string
+          description: Nombre del estudiante
+          example: Yasmine rmali
+        mail:
+          type: string
+          description: Email del estudiante
+          example: yasmine@alu.murciaeduca.es
+        date_born:
+          type: string
+          format: date
+          description: Fecha de nacimiento yy-MM-dd
+          example: 12-12-1988
+    UpdateStudentRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        mail:
+          type: string
+        date_born:
+          type: string
+          format: date
