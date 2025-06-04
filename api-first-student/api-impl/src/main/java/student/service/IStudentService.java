@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface IStudentService {
     List<StudentDTO> getAllStudent();
+    List<StudentDTO> getAllStudentByFinished(boolean finished);
     StudentDTO createStudent(CreateStudentRequest createStudentRequest);
     StudentDTO deleteStudent(int id);
     StudentDTO updateStudent(int id, UpdateStudentRequest updateStudentRequest);

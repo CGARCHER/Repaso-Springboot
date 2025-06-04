@@ -12,7 +12,6 @@ import java.time.LocalDate;
 @Builder
 public class StudentDTO {
 
-    private static int count_id = 1;
     @Schema(description = "Identificador del estudiante", example = "1")
     private Integer id;
     @Schema(description = "Nombre del estudiante", example = "Yasmine rmali")
@@ -21,12 +20,6 @@ public class StudentDTO {
     private String mail;
     @Schema(description = "Fecha de nacimiento yy-MM-dd", example = "12-12-1988")
     private LocalDate date_born;
-
-    public StudentDTO(String name, String mail, LocalDate date_born) {
-        this.id = count_id;
-        count_id++;
-        this.name = name;
-        this.mail = mail;
-        this.date_born = date_born;
-    }
+    @Schema(description = "Indica si el estudiante a finalizado los estudios")
+    private boolean finished;
 }

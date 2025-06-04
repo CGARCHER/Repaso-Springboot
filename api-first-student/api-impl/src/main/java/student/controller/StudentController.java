@@ -35,6 +35,16 @@ public class StudentController{
         return ResponseEntity.ok(studentService.getAllStudent());
     }
 
+
+    @GetMapping("/all/finished/{value}")
+    @Operation(summary = "Get all students by finished")
+    @ApiResponses({@ApiResponse(responseCode = "200", description = "List of students", content = {
+            @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = StudentDTO.class)))})})
+    public ResponseEntity<List<StudentDTO>> getAllByFinished(@PathVariable boolean value) {
+        return ResponseEntity.ok(studentService.getAllStudentByFinished(value));
+    }
+
+
     @PostMapping("/create")
     public ResponseEntity<StudentDTO> create(@RequestBody @Valid CreateStudentRequest createStudentRequest) {
         return ResponseEntity.status(HttpStatus.CREATED)

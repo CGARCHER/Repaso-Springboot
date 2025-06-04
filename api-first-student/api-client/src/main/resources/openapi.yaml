@@ -15,13 +15,13 @@ externalDocs:
   description: Repositorio y Documentación del Proyecto y API
   url: https://github.com/cgarcher
 servers:
-- url: http://localhost:8080
-  description: Generated server url
+  - url: http://localhost:8080
+    description: Generated server url
 paths:
   /student/create:
     post:
       tags:
-      - student-controller
+        - student-controller
       operationId: create
       requestBody:
         content:
@@ -39,15 +39,15 @@ paths:
   /student/update/{id}:
     patch:
       tags:
-      - student-controller
+        - student-controller
       operationId: update
       parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int32
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
       requestBody:
         content:
           application/json:
@@ -64,9 +64,30 @@ paths:
   /student/all:
     get:
       tags:
-      - student-controller
+        - student-controller
       summary: Get all students
       operationId: getAll
+      responses:
+        "200":
+          description: List of students
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/StudentDTO"
+  /student/all/finished/{value}:
+    get:
+      tags:
+        - student-controller
+      summary: Get all students by finished
+      operationId: getAllByFinished
+      parameters:
+        - name: value
+          in: path
+          required: true
+          schema:
+            type: boolean
       responses:
         "200":
           description: List of students
@@ -79,15 +100,15 @@ paths:
   /student/delete/{id}:
     delete:
       tags:
-      - student-controller
+        - student-controller
       operationId: delete
       parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: integer
-          format: int32
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
       responses:
         "200":
           description: OK
@@ -108,8 +129,8 @@ components:
           type: string
           format: date
       required:
-      - mail
-      - name
+        - mail
+        - name
     StudentDTO:
       type: object
       properties:
@@ -131,6 +152,9 @@ components:
           format: date
           description: Fecha de nacimiento yy-MM-dd
           example: 12-12-1988
+        finished:
+          type: boolean
+          description: Indica si el estudiante a finalizado los estudios
     UpdateStudentRequest:
       type: object
       properties:

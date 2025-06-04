@@ -31,6 +31,12 @@ public class StudentServiceImpl implements IStudentService {
     }
 
     @Override
+    public List<StudentDTO> getAllStudentByFinished(boolean finished) {
+        return  studentMapper.studentToStudentDTO
+                (this.studentRepository.findByFinished(finished));
+    }
+
+    @Override
     public StudentDTO createStudent(CreateStudentRequest createStudentRequest) {
 
         Student student = Student.builder()

@@ -16,13 +16,17 @@ public class Student {
     private String mail;
     private LocalDate date_born;
 
+
+    private boolean finished;
+
     public Student() {}
 
-    public Student(Integer id, String name, String mail, LocalDate date_born) {
+    public Student(Integer id, String name, String mail, LocalDate date_born, boolean finished) {
         this.id = id;
         this.name = name;
         this.mail = mail;
         this.date_born = date_born;
+        this.finished = finished;
     }
 
     public Integer getId() {
@@ -55,5 +59,13 @@ public class Student {
 
     public void setMail(String mail) {
         this.mail = mail;
+    }
+
+    public boolean isFinished() {
+        return finished;
+    }
+
+    public void setFinished(boolean finished) {
+        this.finished = finished;
     }
 }
