@@ -1,5 +1,6 @@
 package com.cgarcher.mybatch.tasklet;
 
+import com.cgarcher.mybatch.service.IStudentFinishedService;
 import org.generator.api.StudentControllerApi;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.scope.context.ChunkContext;
@@ -12,18 +13,20 @@ public class HelloWorldTasketlet implements Tasklet {
 
     private final StudentControllerApi studentControllerApi;
 
-    public HelloWorldTasketlet(StudentControllerApi studentControllerApi) {
+    private final IStudentFinishedService studentFinishedService;
+
+    public HelloWorldTasketlet(StudentControllerApi studentControllerApi, IStudentFinishedService studentFinishedService) {
         this.studentControllerApi = studentControllerApi;
+        this.studentFinishedService = studentFinishedService;
     }
 
 
     @Override
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
 
+        studentFinishedService
+                .createStudentsFinished(studentControllerApi.getAllByFinished(true));
 
-        studentControllerApi.getAllByFinished(true);
-
-        System.out.println("Hola mundo");
         return RepeatStatus.FINISHED;
     }
 }
