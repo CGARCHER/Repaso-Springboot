@@ -65,4 +65,12 @@ public class StudentController{
                         (id, updateStudentRequest));
 
     }
+
+    @DeleteMapping("/delete/name")
+    public ResponseEntity<Boolean> delete(@RequestBody String name){
+        return ResponseEntity.ok(studentService.deleteByName(name));
+    }
+
+
+
 }

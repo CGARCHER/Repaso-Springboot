@@ -88,6 +88,10 @@ public class StudentServiceImpl implements IStudentService {
                 (this.studentRepository.save(student));
     }
 
+    @Override
+    public boolean deleteByName(String name) {
+        return studentRepository.deleteByName(name)>0;
+    }
 
 
 }

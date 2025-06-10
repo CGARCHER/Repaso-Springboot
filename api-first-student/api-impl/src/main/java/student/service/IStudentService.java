@@ -12,4 +12,5 @@ public interface IStudentService {
     StudentDTO createStudent(CreateStudentRequest createStudentRequest);
     StudentDTO deleteStudent(int id);
     StudentDTO updateStudent(int id, UpdateStudentRequest updateStudentRequest);
+    boolean deleteByName(String name);
 }
