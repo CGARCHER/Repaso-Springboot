@@ -16,7 +16,7 @@ public interface IStudentRepository extends JpaRepository<Student, Integer> {
 
     /*@Transactional
     @Modifying
-    void deleteByName(String name);*/
+    int deleteByName(String name);*/
 
     @Transactional
     @Modifying
